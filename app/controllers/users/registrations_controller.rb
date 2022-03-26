@@ -49,7 +49,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :phone_number])
   end
 
-  def after_sign_up_path_for(resource) # For skipping confirmation
+  def after_sign_up_path_for(resource)
     thank_you_path
   end
 
