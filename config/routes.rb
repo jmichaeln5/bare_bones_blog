@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'users/dashboard'
   root 'static_pages#home'
   get 'static_pages/about'
 
@@ -19,6 +20,7 @@ Rails.application.routes.draw do
   end
 
   get '/thank_you', to: 'static_pages#thank_you', as: 'thank_you'
+  get '/dashboard', to: 'users#dashboard', as: 'dashboard'
 
   resources :posts
 

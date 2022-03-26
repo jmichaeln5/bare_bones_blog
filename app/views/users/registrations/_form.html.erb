@@ -29,10 +29,18 @@
     <%= f.password_field :password, autocomplete: "new-password" %>
   </div>
 
+
+  <% if @show_password == true %>
   <div class="field">
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
+  <% end %>
+
+  <div class="field">
+  <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+  <%= f.password_field :current_password, autocomplete: "current-password" %>
+</div>
 
   <div class="actions">
     <%= f.submit "Submit" %>

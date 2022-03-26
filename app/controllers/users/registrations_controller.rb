@@ -15,9 +15,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # GET /resource/edit
-  # def edit
-  #   super
-  # end
+  def edit
+    @show_password = true
+    super
+  end
 
   # PUT /resource
   # def update
@@ -50,7 +51,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_sign_up_path_for(resource)
-    thank_you_path
+    dashboard_path
   end
 
   # The path used after sign up for inactive accounts.
@@ -60,7 +61,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   def after_update_path_for(resource)
-    # dashboard_path
+    dashboard_path
   end
 
 end
