@@ -1,3 +1,36 @@
 <h1>Users#dashboard</h1>
 <h2> Hello <%= current_user.email %></h2>
 <p>Find me in app/views/users/dashboard.html.erb</p>
+
+<h1>My Posts</h1>
+<h3><%= link_to "New post", new_post_path %></h3>
+<br>
+<div class="two_column_layout">
+  <div id="user_posts" class="column" style="height:auto; background-color:#aaa;">
+    <h2>My Posts</h2>
+    <% current_user.posts.order(updated_at: :desc).each do |post| %>
+      <%= render post %>
+      <p>
+        <%= link_to "View", post %>
+        <%= link_to "Edit", post %>
+        <%= link_to "View", post %>
+      </p>
+    <% end %>
+  </div>
+
+  <div id="posts" class="column" style="height:auto; background-color:#bbb;">
+    <h2>Recent Posts</h2>
+    <% current_user_post_amount = current_user.posts.count %>
+    <% Post.last(5).each do |post| %>
+      <p>
+        <%= post.title %>
+      </p>
+      <p>
+        <%= post.body[0..250] %>
+      </p>
+      <p>
+        <%= link_to "View", post %>
+      </p>
+    <% end %>
+  </div>
+</div>

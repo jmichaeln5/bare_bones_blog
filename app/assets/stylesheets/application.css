@@ -17,3 +17,20 @@
 li {
   font-size: 120%;
 }
+
+* {
+  box-sizing: border-box;
+}
+
+.two_column_layout > .column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  /* height: auto; */
+}
+
+.two_column_layout:after {
+  content: "";
+  display: table;
+  clear: both;
+}
