@@ -12,9 +12,18 @@
 
   <header>
     <%= render "shared/nav_bars/nav_bar" %>
+    <p class="notice" style="color: green"><%= notice %></p>
+    <p class="alert" style="color: red"><%= alert %></p>
   </header>
 
   <body>
     <%= yield %>
+
+    <br>
+    <div>
+      <% if root_path? == false %>
+      <%= link_to "Back", :back %>
+      <% end %>
+    </div>
   </body>
 </html>
