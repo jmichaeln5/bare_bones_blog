@@ -1,0 +1,6 @@
+<h2>Register</h2>
+
+<%= render "form" unless Rails.env.development? %>
+<%= render "faker_form" if Rails.env.development? %>
+
+<%= render "users/shared/links" %>
