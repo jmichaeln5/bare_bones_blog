@@ -1,45 +1,27 @@
 <nav>
   <h2> <%= link_to "Bare Bones Blog", root_path %> </h2>
-  <div>
+  <div style="display: flex; justify-content: space-between;">
     <ul>
+      <%= tag.li link_to "dashboard".titleize, dashboard_path if user_signed_in? %>
+      <%= tag.li link_to "home".titleize, root_path %>
+      <%= tag.li link_to "about".titleize, about_path %>
+    </ul>
+    <div>
+      <%= link_to "users".titleize, users_path %>
+      <%= link_to "(view as JSON)", users_path(format: :json), style: 'display: inline-block; margin-left: 0.5rem;' %>
+      <%= tag.br %>
+      <%= link_to "posts".titleize, posts_path %>
+      <%= link_to "(view as JSON", posts_path(format: :json), style: 'display: inline-block; margin-left: 0.5rem;' %>
 
-      <% if !current_user %>
-        <li>
-          <%= link_to "Home", root_path %>
-        </li>
-        <li>
-          <%= link_to "About", static_pages_about_path %>
-        </li>
-      <% end %>
+      <%= tag.br*2 %>
 
       <% if current_user %>
-        <li>
-          <%= link_to "Dashboard", dashboard_path %>
-        </li>
+        <%= tag.div link_to 'Account Settings', account_settings_path %>
+        <%= tag.div link_to "Logout", sign_out_path, method: :delete %>
+      <% else %>
+        <%= tag.div link_to 'Login', sign_in_path %>
+        <%= tag.div link_to 'Register', sign_up_path %>
       <% end %>
-
-      <li>
-        <%= link_to "Posts", posts_path %>
-      </li>
-      <br>
-      <li>
-        <div>
-          <!-- <a href="#">Link</a> -->
-          <!-- <a href="#">Link</a> -->
-          <%= link_to 'Login', sign_in_path if !current_user %>
-          <%= link_to 'Register', sign_up_path if !current_user %>
-
-          <% if current_user %>
-          <%= link_to 'Account Settings', account_settings_path %>
-          <%= link_to "Logout", sign_out_path, method: :delete %>
-          <% end %>
-        </div>
-      </li>
-
-    </ul>
-    <!-- <form>
-      <input type="search" placeholder="Search" aria-label="Search">
-      <button type="submit">Search</button>
-    </form> -->
+    </div>
   </div>
 </nav>

@@ -1,38 +1,45 @@
 if Rails.env.development?
-  users_to_create = 10
+  amount = 15
+  puts "creating users...".colorize(:green)
+  
+  amount.times do |i|
+    # name         =  "user #{id.humanize}".titleize
+    def name         = Faker::Name.name
+    def phone_number = Faker::PhoneNumber.cell_phone
+    def email        = "user#{User.last&.id || 0 + 1}@example.com"
+    def password     = 123456
 
-  starting_id_to_create = User.last ? ( User.last.id + 1) : 1
-  ending_id_to_create = starting_id_to_create + users_to_create
+    def attrs = { name: name, email: email, password: password, phone_number: phone_number }
+    user = User.new attrs
 
-  (starting_id_to_create..ending_id_to_create).each do |id|
-    user = User.new(
-        id: id,
-        first_name: 'User',
-        last_name: "#{id.humanize.capitalize}",
-        phone_number: "954"+[*0..3, *0..4].sample(7).join,
-        email: "user#{id}@gmail.com",
-        password: '123456',
-        password_confirmation: "123456"
-    )
-    user.save
+    if user.invalid?
+      _attrs = attrs.dup
+      _attrs.merge!(email: user.email.prepend(Faker::Alphanumeric.alphanumeric)) if user.errors.to_hash.has_key?(:email)
+
+      user.assign_attributes _attrs
+    end
+
+    user.save!
+    puts "created user #{i + 1}/#{amount}".colorize(:green)
+    puts JSON.pretty_generate( user.attributes.slice(*attrs.as_json.keys) ).colorize(:blue)
   end
 
+  amount = rand(50..150)
+  puts "creating posts...".colorize(:green)
 
-  rand(33..99).times do
-    rand_title = [
-      Faker::Quote.famous_last_words,
-      Faker::Books::CultureSeries.book,
-    ].sample
+  amount.times do |i|
+    def title(title = nil)        = (title ||= (Faker::Boolean.boolean ? Faker::Quote.famous_last_words : Faker::Books::CultureSeries.book))
+    def user_id                   = User.all.sample.id
+    def body(number: rand(3..10)) = ( 
+      def boolean = Faker::Boolean.boolean; return Faker::Lorem.sentences(number: number).join if boolean; 
+      return (boolean ? Faker::Quote.famous_last_words : Faker::Books::CultureSeries.book) if boolean
+      boolean ? Faker::TvShows::AquaTeenHungerForce.quote : Faker::TvShows::RickAndMorty.quote
+    )
 
-    rand_body = [
-      Faker::Lorem.paragraphs(number: rand(3..13)).join(" "),
-      Faker::Lorem.sentences(number: rand(8..25)).join(" "),
-      Faker::TvShows::AquaTeenHungerForce.quote,
-      Faker::TvShows::RickAndMorty.quote
-    ].sample
+    def attrs = { title: title, body: body, user_id: user_id }
+    post = Post.create! attrs
 
-    rand_user_id = rand(1..10)
-
-    post = Post.create(title: rand_title, body: rand_body, user_id: rand_user_id)
+    puts "created post #{i + 1}/#{amount}".colorize(:green)
+    puts JSON.pretty_generate( post.attributes.as_json ).colorize(:blue)
   end
 end

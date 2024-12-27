@@ -5,7 +5,9 @@
   <% @posts.each do |post| %>
     <%= render post %>
     <p>
-      <%= link_to "View", post %>
+      <%= link_to "Show this post", post %>
+      <%= tag.br %>
+      <%= link_to "view json", post_path(post, format: :json) %>
     </p>
   <% end %>
 </div>

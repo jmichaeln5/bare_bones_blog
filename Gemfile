@@ -69,3 +69,7 @@ end
 gem 'devise'
 
 gem "json-schema", "~> 5.1"
+
+gem "name_of_person", "~> 1.1"
+
+gem "colorize", "~> 1.1"
