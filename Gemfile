@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.0.1"
+ruby file: ".ruby-version"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.2", ">= 7.0.2.3"
@@ -53,7 +53,6 @@ group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem "faker", "~> 2.20"
   gem 'humanize', '~> 1.1', '>= 1.1.2'
-  gem 'byebug'
 end
 
 group :development do
@@ -68,3 +67,5 @@ group :development do
 end
 
 gem 'devise'
+
+gem "json-schema", "~> 5.1"
