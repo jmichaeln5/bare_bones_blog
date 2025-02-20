@@ -8,13 +8,12 @@ class User < ApplicationRecord
 
   has_many :posts, dependent: :destroy
 
-  validates :first_name, length: { minimum: 2, maximum: 30 }
-  validates :last_name, length: { minimum: 2, maximum: 30 }
-  validates :email, length: { minimum: 8, maximum: 50 }
-  validates :phone_number, length: { minimum: 10, maximum: 15 }
+  # validates :first_name, length: { minimum: 2, maximum: 30 }
+  # validates :last_name, length: { minimum: 2, maximum: 30 }
+  # validates :email, length: { minimum: 8, maximum: 50 }
+  # validates :phone_number, length: { minimum: 10, maximum: 15 }
 
   def attributes
-    super.yield_self { |attrs| attrs.dup.merge("name" =>  name) }
+    super.yield_self { |attrs| attrs.dup.merge('name' => name) }
   end
 end
-

@@ -13,8 +13,10 @@ class Users::SessionsController < Devise::SessionsController
   ### # https://github.com/heartcombo/devise/wiki/How-To%3A-Redirect-to-a-specific-page-when-the-user-can-not-be-authenticated
 
   def create
-    super do |resource|
-      # ...
+    if resource_class.find_for_authentication(email: sign_in_params[:email])&.valid_password? sign_in_params[:password]
+      super
+    else
+      redirect_to sign_in_path, alert: 'Invalid email or password'
     end
   end
 
@@ -30,8 +32,7 @@ class Users::SessionsController < Devise::SessionsController
   #   devise_pBackgroundWorker.trigger(resource)arameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
 
-  def after_sign_in_path_for(resource)
-    #dashboard_path
-
+  def after_sign_in_path_for(_resource)
+    dashboard_path
   end
 end

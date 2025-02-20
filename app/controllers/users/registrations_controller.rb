@@ -10,9 +10,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    resource || build_resource(sign_up_params)
+
+    if resource.invalid?
+      tags = resource.errors.full_messages.map { |msg| helpers.tag.p msg, class: 'alert', style: 'color: red' }
+      render turbo_stream: turbo_stream.update_all('.alert', tags.join.html_safe)
+    else
+      super
+    end
+  end
 
   # GET /resource/edit
   def edit
@@ -43,14 +50,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :phone_number])
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[first_name last_name phone_number])
   end
 
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :phone_number])
+    devise_parameter_sanitizer.permit(:account_update, keys: %i[first_name last_name phone_number])
   end
 
-  def after_sign_up_path_for(resource)
+  def after_sign_up_path_for(_resource)
     dashboard_path
   end
 
@@ -60,8 +67,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   thank_you_path
   # end
 
-  def after_update_path_for(resource)
+  def after_update_path_for(_resource)
     dashboard_path
   end
-
 end
